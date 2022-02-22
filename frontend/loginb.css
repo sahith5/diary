@@ -1,0 +1,5 @@
+body{
+    width: 20%;
+    background-color: rgb(9, 38, 38);
+    background-image: url('../frontend/book.jpg');
+}
