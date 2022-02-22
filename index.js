@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
-app.listen(3000,function()
+const port=process.env.port;
+app.listen(port||3000,function()
 {
     console.log("app staerted");
 })
