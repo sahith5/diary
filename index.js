@@ -17,3 +17,6 @@ app.get("/write",function(req,res)
 { 
     res.sendFile(path.join(__dirname+"/frontend/write.html"));
 })
+
+
+
