@@ -6,7 +6,6 @@ app.listen(port,function()
 {
     console.log("app staerted");
 })
-app.use(express.static(__dirname+"/frontend/images"));
 
 app.get("/",function(req,res)
 {
