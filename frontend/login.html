@@ -585,7 +585,8 @@ input[class^='btn-']:hover {
   var data=$("#entry").val();
   var name=localStorage.getItem("NAME");
   console.log(data)
-  
+  $("#entry-title").html(" ");
+  $("#entry").html(" ");
   var obj={
     data:data,
     dates:dates,
