@@ -321,6 +321,25 @@ input[class^='btn-']:hover {
    background-color: burlywood;
    border-radius: 20%;
  }
+ #diary{
+   color: black;
+   width: 100%;
+   height: auto;
+   border: black 2px solid;
+
+ }
+ #emptyspace{
+   height: 20px;
+   display: block;
+   border: white 0px solid;
+ }
+.hello{
+  width:100%;
+}
+.d{
+  background-color: white;
+  border: 2px black solid;
+}
 
 
 
@@ -358,9 +377,9 @@ input[class^='btn-']:hover {
 
   <div id="loggedin">
                   <nav id="navigation">
-
+              
                     <a class="l active" href="/" > write </a>
-                    <a class="l" href="/mydiaries"> mydiaries </a>
+                    <a class="l" href="#diaries"> mydiaries </a>
                     <a class="l" href="#" id="name">  </a>
                     <a class="l" href="#"  onclick="signOut();">Sign out</a>
                     <script>
@@ -424,7 +443,7 @@ input[class^='btn-']:hover {
 
                           
                           
-                            <button class="btn-main entry-submit-btn">Submit</button>
+                            <button id="submit" class="btn-main entry-submit-btn" onclick=add()>Submit</button>
                           
                         </div>
                       </div>
@@ -437,11 +456,46 @@ input[class^='btn-']:hover {
                       <div class="container-row entryResultRow"></div>
                     </div>
                   </section>
-
+                  
+  <div id="diaries">
+    
+    <div id="text">
+      <h1>
+        MY jOURNEY
+      </h1>
+    
+  
+      
+  
+    </div>
+    
   </div>
 
 
   
+  <div id="diary">
+
+    <div class="hello"> 
+      <h2>
+        titles
+      </h2>
+      <div class="d">
+  
+      </div>
+
+    </div>
+  
+  </div>
+  
+  <div id="showing">
+
+  </div>
+
+  <div id="emptyspace" >
+
+  </div>
+
+
 
 
 
@@ -462,7 +516,11 @@ input[class^='btn-']:hover {
 
 <script>
     function onSignIn(googleUser) {
+
         var profile = googleUser.getBasicProfile();
+        var name=profile.getName();
+        var email=profile.getEmail();
+
         console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
@@ -474,6 +532,30 @@ input[class^='btn-']:hover {
         $('#notloggedin').hide();
         console.log("hidedd");
         $('#name').html(localStorage.getItem("NAME"));
+        var obj={
+          name:name,
+          mail:email
+       }
+       console.log(obj);
+
+        $.ajax({
+                type:"post",
+                data:obj,
+                url:"https://dailydiaary.herokuapp.com/login",
+                success:function(data)
+                {
+                    if(data)
+                    {
+                        console.log(data);
+
+                    }
+                    else
+                    {
+                        console.log(false);
+                    }
+
+                }
+            })
       }
   
 
@@ -493,12 +575,81 @@ input[class^='btn-']:hover {
     $('#loggedin').show();
   }
 
+</script>
+
+<script>
+  function add()
+  {
+  
+  var dates=$("#entry-title").val();
+  var data=$("#entry").val();
+  var name=localStorage.getItem("NAME");
+  console.log(data)
+  
+  var obj={
+    data:data,
+    dates:dates,
+    name:name
+  }
+  $.ajax(
+    {
+      type:"post",
+      data:obj,
+      url:"https://dailydiaary.herokuapp.com/write",
+      success:function(data)
+      {
+       console.log(data);
+      }
+    }
+  )
 
 
+}
+</script>
+
+
+<script>
+  var x=$("#diaries")
+  var name=localStorage.getItem("NAME");
+  var k;
+
+  $.ajax(
+    {
+      type:"get",
+      url:"https://dailydiaary.herokuapp.com/diaries/"+name,
+      success:function(data)
+      {
+        k=data;
+        console.log(data);
+
+        for(var i=0;i<data.data.length;i++)
+        {
+          console.log(data.data[i])
+          var x=
+        `
+        <div class="hello "  id="${data.data[i]._id}" onclick=show('${data.data[i]._id}')>
+        <h3>
+          ${data.data[i].dates}
+          </h3>
+
+
+`
+   $("#diary").append(x);
+        }
+       
+
+
+      }
+    }
+  )
+  function show(x)
+  {
+  console.log(x+"in show")
+  console.log(k)
+  }
 
 
 </script>
-
 
 
 

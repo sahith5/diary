@@ -3,11 +3,13 @@ var schema=mongoose.Schema(
     {
         email:{type:String,required:true,unique:true},
         name:{type:String,required:true,unique:true},
-        data:[{string:dates,
-                string:data        
-        }
+        data:[{dates:{type:String},
+                data:{type:String}
+            }
         ],
-        timestamps:true
-    
+    },
+    {
+        timestamps:true    
     }
 )
+module.exports=mongoose.model("diaries",schema);
