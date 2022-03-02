@@ -60,7 +60,6 @@ app.post("/write",function(req,res)
 {
     console.log("call landed");
     //console.log(req.body);
-    res.send(req.body);
     write.write(req.body,function(response)
     { 
 
